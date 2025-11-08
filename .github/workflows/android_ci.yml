@@ -27,14 +27,14 @@ jobs:
         run: ./gradlew test # This will fail if unit tests don't pass
 
       # Optional: If you have instrumented tests
-      # - name: Run Instrumented Tests
-      #   uses: reactivecircus/android-emulator-runner@v2
-      #   with:
-      #     api-level: 30
-      #     target: default
-      #     arch: x86_64
-      #     profile: Nexus 5
-      #     script: ./gradlew connectedCheck # This will fail if instrumented tests don't pass
+      - name: Run Instrumented Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+         api-level: 30
+         target: default
+         arch: x86_64
+         profile: Nexus 5
+         script: ./gradlew connectedCheck # This will fail if instrumented tests don't pass
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug

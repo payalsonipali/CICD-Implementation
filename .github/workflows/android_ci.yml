@@ -30,14 +30,19 @@ jobs:
       - name: Run Instrumented Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-         api-level: 30
-         target: default
-         arch: x86_64
-         profile: Nexus 5
-         force-avd-creation: false
-         emulator-options: "-no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none"
-         boot-timeout: 600
-         script: ./gradlew connectedCheck # This will fail if instrumented tests don't pass
+          api-level: 29
+          target: default
+          arch: x86_64
+          profile: Nexus 5
+          emulator-options: "-no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 2048 -partition-size 2048"
+          boot-timeout: 600
+          script: |
+            adb kill-server
+            adb start-server
+            adb wait-for-device
+            adb shell getprop sys.boot_completed | grep 1
+            ./gradlew assembleDebug assembleAndroidTest
+            ./gradlew connectedDebugAndroidTest
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug
